@@ -5,7 +5,7 @@ import RequestWithUser from "../helpers/interfaces/requestWithUser.inteface";
  
 class PostsController {
 
-  public base_url = 'http://localhost:3000'
+  public base_url = 'http://localhost:4002'
   public api = apiAdapter(this.base_url);
   public path = '/posts';
   public router = Router();
@@ -22,11 +22,12 @@ class PostsController {
  
   private getAllPosts = async (req: RequestWithUser, res: Response, next:NextFunction) => {
     try {
-      console.log("REQ POSTS", req.cookies)
-      const resp = await this.api.get(req.path)
+      console.log("COOKIE", req.cookies)
+      const options = { headers: req.cookies }
+      const resp = await this.api.get(req.path, options)
       res.send(resp.data);
     } catch (error) {
-      next(error);
+      next(error.response.data);
     }
     
   }
