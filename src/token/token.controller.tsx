@@ -6,7 +6,7 @@ class TokenController {
 
   public createToken(user: IUser): TokenData {
     const expiresIn = 60 * 60; // an hour
-    const secret:string = process.env.JWT_SECRET || 'Lucas';
+    const secret:string = process.env.JWT_SECRET || 'Spacenow';
     const dataStoredInToken: DataStoredInToken = {
       _id: user.id,
     };

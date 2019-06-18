@@ -8,13 +8,11 @@ import usersMock from '../mocks/users.mock';
 
 export default async (req: RequestWithUser, res: Response, next: NextFunction) => {
   const cookies = req.cookies;
-  console.log('REQ COOKIE GATEWAY ===>>> ', req.cookies)
   if (cookies && cookies.Authorization) {
-    const secret:string = process.env.JWT_SECRET || 'Lucas';
+    const secret:string = process.env.JWT_SECRET || 'Spacenow';
     try {
       const verificationResponse:DataStoredInToken = jwt.verify(cookies.Authorization, secret) as DataStoredInToken;
       const id = verificationResponse._id;
-      console.log("ID TOKEN GATEWAY ===>>> ", id)
       const user = await usersMock.find(user => user.id === id);
       if (user) {
         req.user = user;
