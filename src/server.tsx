@@ -9,7 +9,8 @@ const app = new App(
     new UsersController(),
     new AuthenticationController(),
   ],
-  4000,
+  3000,
+  '0.0.0.0'
 );
  
 app.listen();

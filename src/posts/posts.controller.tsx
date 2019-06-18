@@ -1,7 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import apiAdapter from '../helpers/adapter/apiAdapter';
-import authMiddleware from "../helpers/middlewares/auth-middleware";
-import RequestWithUser from "../helpers/interfaces/requestWithUser.inteface";
  
 class PostsController {
 
@@ -15,18 +13,17 @@ class PostsController {
   }
  
   private intializeRoutes() {
-    this.router.get(`${this.path}`, authMiddleware, this.getAllPosts);
+    this.router.get(`${this.path}`, this.getAllPosts);
     // this.router.post(`${this.path}`, this.createPost);
     // this.router.patch(`${this.path}`, this.createPost);
   }
  
-  private getAllPosts = async (req: RequestWithUser, res: Response, next:NextFunction) => {
+  private getAllPosts = async (req: Request, res: Response, next:NextFunction) => {
     try {
-      console.log("REQ POSTS", req.cookies)
-      const resp = await this.api.get(req.path)
+      const resp = await this.api.get(req.path, { headers: { 'cookie': `Authorization=${JSON.stringify(req.cookies.Authorization)}` }})
       res.send(resp.data);
     } catch (error) {
-      next(error);
+      next(error.response.data);
     }
     
   }
