@@ -1,9 +1,9 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import apiAdapter from '../helpers/adapter/apiAdapter';
  
 class UsersController {
 
-  public base_url = 'http://localhost:5000'
+  public base_url = 'http://localhost:4001'
   public path = '/users';
   public api = apiAdapter(this.base_url);
   public router = Router();
@@ -18,9 +18,13 @@ class UsersController {
     // this.router.patch(this.path, this.createUser);
   }
  
-  private getAllUsers = async (req: Request, res: Response) => {
-    const resp = await this.api.get(req.path)
-    res.send(resp.data);
+  private getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const resp = await this.api.get(req.path);
+      res.send(resp.data);
+    } catch (error) {
+      next(error.response.data)
+    }
   }
 
 }

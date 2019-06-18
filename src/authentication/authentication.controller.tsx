@@ -6,7 +6,7 @@ import CookieController from '../cookie/cookie.controller';
  
 class AuthenticationController {
 
-  public base_url = 'http://localhost:5000'
+  public base_url = 'http://localhost:4001'
   public path = '/auth';
   public api = apiAdapter(this.base_url);
   public router = Router();
@@ -26,7 +26,7 @@ class AuthenticationController {
       const resp = await this.api.post(req.path, req.body)
       res.send(resp.data);
     } catch (error) {
-      next(error)
+      next(error.response.data)
     }
   }
 
@@ -37,7 +37,7 @@ class AuthenticationController {
       res.setHeader('Set-Cookie', [new CookieController().createCookie(tokenData)]);
       res.send(resp.data);
     } catch (error) {
-      next(error)
+      next(error.response.data)
     }
   }
 

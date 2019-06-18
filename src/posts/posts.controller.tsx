@@ -3,7 +3,7 @@ import apiAdapter from '../helpers/adapter/apiAdapter';
  
 class PostsController {
 
-  public base_url = 'http://localhost:3000'
+  public base_url = 'http://localhost:4002'
   public api = apiAdapter(this.base_url);
   public path = '/posts';
   public router = Router();
